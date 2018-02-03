@@ -1,0 +1,60 @@
+{
+  "name": "SOulcioServer",
+  "version": "0.0.0",
+  "private": true,
+  "author": "Lekan Ikotun",
+  "description": "Soulcio Social Engine",
+  "repository": {
+    "type": "git",
+    "url": "http://192.168.50.12:10080/suricata/base.git"
+  },
+  "scripts": {
+    "start": "node ./app"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.1",
+    "cls-bluebird": "^2.0.1",
+    "connect-redis": "^3.3.0",
+    "cookie-parser": "^1.4.3",
+    "death": "^1.1.0",
+    "debug": "^2.6.3",
+    "dotenv": "^4.0.0",
+    "errorhandler": "^1.5.0",
+    "exit-hook": "^1.1.1",
+    "express": "^4.15.2",
+    "express-session": "^1.15.3",
+    "http": "0.0.0",
+    "https": "^1.0.0",
+    "ioredis": "^3.1.1",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1",
+    "moment-timezone": "^0.5.13",
+    "mongoose": "^4.11.1",
+    "mongoskin": "^2.1.0",
+    "path": "^0.12.7",
+    "redis": "^2.7.1",
+    "uuid": "^3.1.0",
+    "winston": "^2.3.1",
+    "winston-daily-rotate-file": "^1.4.6"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "continuation-local-storage": "^3.2.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.7.0",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-mocha": "^1.1.1",
+    "mocha": "^2.5.3",
+    "mockery": "^2.0.0",
+    "nock": "^8.1.0",
+    "open": "^0.0.5",
+    "rewire": "^2.5.2",
+    "rimraf": "^2.5.2",
+    "run-sequence": "^1.1.5",
+    "sinon": "^1.17.3",
+    "supertest": "^1.2.0"
+  }
+}
