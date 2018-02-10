@@ -1,12 +1,12 @@
 {
-  "name": "SOulcioServer",
+  "name": "SoulcioServer",
   "version": "0.0.0",
   "private": true,
   "author": "Lekan Ikotun",
-  "description": "Soulcio Social Engine",
+  "description": "Soulcio",
   "repository": {
     "type": "git",
-    "url": "http://192.168.50.12:10080/suricata/base.git"
+    "url": "https://github.com/lekanikotun/soulcio-be.git"
   },
   "scripts": {
     "start": "node ./app"
@@ -34,6 +34,8 @@
     "mongoskin": "^2.1.0",
     "path": "^0.12.7",
     "redis": "^2.7.1",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
     "uuid": "^3.1.0",
     "winston": "^2.3.1",
     "winston-daily-rotate-file": "^1.4.6"

@@ -1,5 +1,11 @@
 /**
- * Development Config
+ * @category   Dev Configuration
+ * @package    Soulcio
+ * @copyright  Copyright (c) 2018 Media intellects Inc. All rights reserved.
+ * @license    http://www.mediaintellects.com/license/
+ * @author     Media Intellects Inc. <info@mediaintellects.com>
+ * The contents of this file represent Media Intellects trade secrets and are confidential.
+ * Use outside of Media Intellects is prohibited and in violation of copyright laws.
  */
 
 'use strict';
@@ -10,7 +16,14 @@ module.exports = {
     webServerURIPrefix: '',
     httpPort: 8000,
     httpsPort: 8443,
-    sslEnabled: true
+    sslEnabled: true,
+  },
+
+  request: {
+    host: 'https://localhost',
+    port: '443',
+    baseUrl: 'soulcio/api/rest',
+    timeout: 2 * 60 * 1000
   },
 
   cookie: {
@@ -55,5 +68,22 @@ module.exports = {
   garbageCollection: {
     maximumMemory: 300,
     checkingCycle: 12 * 60
+  },
+
+  api: {
+    soulcio_base: {
+      host: 'https://localhost',
+      port: '',
+      baseUrl: 'soulcio/api/rest',
+      timeout: 2 * 60 * 1000,
+      headers: {
+        Accept: 'application/json',
+        oauth_consumer_key: process.env.CONSUMER_KEY,
+        oauth_consumer_secret: process.env.CONSUMER_SECRET
+      }
+    },
+    soulcio_login: {
+      uri: 'login'
+    }
   }
 };

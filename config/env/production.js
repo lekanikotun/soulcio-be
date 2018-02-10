@@ -13,6 +13,10 @@ module.exports = {
     sslEnabled: true
   },
 
+  request: {
+    timeout: 2 * 60 * 1000
+  },
+
   cookie: {
     domain: 'localhost',
     path: '/',
