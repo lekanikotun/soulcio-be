@@ -1,10 +1,16 @@
 /**
- * Base Router
+ * @category   Base Router
+ * @package    Soulcio
+ * @copyright  Copyright (c) 2018 Media intellects Inc. All rights reserved.
+ * @license    http://www.mediaintellects.com/license/
+ * @author     Media Intellects Inc. <info@mediaintellects.com>
+ * The contents of this file represent Media Intellects trade secrets and are confidential.
+ * Use outside of Media Intellects is prohibited and in violation of copyright laws.
  */
 
 'use strict';
 
-// const apiRouter = require('./apiRouter');
+const apiRouter = require('./apiRouter');
 const DevRouter = require('./devRouter');
 
 module.exports = (options) => {
@@ -55,10 +61,10 @@ S:::::::::::::::SS    OO:::::::::OO       UU:::::::::UU    L::::::::::::::::::::
 `);
   });
 
-  // const router = apiRouter(options);
+  const router = apiRouter(options);
   const devRouter = DevRouter(options);
 
-  app.use(config.basePath, devRouter);
-  // app.use(config.devPath, devRouter);
+  app.use(config.basePath, router);
+  app.use(config.devPath, devRouter);
 
 };
