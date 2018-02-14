@@ -71,19 +71,21 @@ module.exports = {
   },
 
   api: {
-    soulcio_base: {
-      host: 'https://localhost',
-      port: '',
-      baseUrl: 'soulcio/api/rest',
-      timeout: 2 * 60 * 1000,
-      headers: {
-        Accept: 'application/json',
-        oauth_consumer_key: process.env.CONSUMER_KEY,
-        oauth_consumer_secret: process.env.CONSUMER_SECRET
+    SE: {
+      base: {
+        host: 'https://localhost',
+        port: '',
+        baseUrl: 'soulcio/api/rest',
+        timeout: 2 * 60 * 1000,
+        headers: {
+          Accept: 'application/json',
+          oauth_consumer_key: process.env.CONSUMER_KEY,
+          oauth_consumer_secret: process.env.CONSUMER_SECRET
+        }
+      },
+      login: {
+        uri: 'login'
       }
-    },
-    soulcio_login: {
-      uri: 'login'
     }
   }
 };

@@ -12,6 +12,8 @@
 
 const resHeaders = (req, res, next) => {
 
+  req.headers['x-forwarded-proto'] = 'https';
+
   // get request ip address
   req.ipAddress = req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress ||

@@ -23,14 +23,15 @@ module.exports = (options) => {
   // init middleware
 
   // routes
-  router.get('/hello', (req, res) => { res.send('Hello World!') });
+  router.get('/hello', (req, res) => { res.send('Hello World!'); });
 
   // routes
   router.get('/login',
     LoginController(options).get
   );
 
-  router.post('/login',
+  router.post(
+    '/login',
     LoginController(options).post
   );
 

@@ -12,11 +12,11 @@
 
 const rp = require('request-promise');
 
-const RequestUtil = (config, logger) => {
+const RequestUtil = (config) => {
 
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-  const _generateUrl = (resource) => {
+  const generateAPIUrl = (resource) => {
     return [
       resource.host,
       resource.port ? `:${resource.port}` : '',
@@ -30,47 +30,52 @@ const RequestUtil = (config, logger) => {
    * @param {{}} resource
    */
   const get = (resource) => {
-    let uri = _generateUrl(resource);
     let options = {
-      uri,
-      json: resource.json || true,
+      uri: resource.uri,
+      json: true,
       headers: resource.headers,
       timeout: resource.timeout || config.request.timeout
     };
-
     return rp(options)
-      .catch(function (err) {
+      .catch(err => {
         throw err;
       });
   };
 
-  /**
-   * POST request
-   * @param {{}} resource
-   * @param body
-   */
-  const post = (resource, body) => {
-    let uri = _generateUrl(resource);
+  const post = (uri, data, headers = {}) => {
     let options = {
       uri,
       method: 'POST',
-      body,
-      json: resource.json || true,
-      headers: resource.headers,
-      timeout: resource.timeout || config.request.timeout
+      json: true,
+      body: data,
+      headers
     };
-
-    logger.info('POST REQUEST OPTIONS', options);
     return rp(options)
-      .catch(function (err) {
+      .catch(err => {
+        throw err;
+      });
+  };
+
+  const formPost = (uri, data, headers = {}) => {
+    let options = {
+      uri,
+      method: 'POST',
+      json: true,
+      form: data,
+      headers
+    };
+    return rp(options)
+      .catch(err => {
         throw err;
       });
   };
 
   return {
     get,
-    post
-  }
+    post,
+    formPost,
+    generateAPIUrl
+  };
 };
 
 module.exports = RequestUtil;

@@ -10,18 +10,24 @@
 
 'use strict';
 
+const Promise = require('bluebird');
 const RequestUtil = require('../../utils/requestUtil');
 
 const LoginController = ({ config, logger }) => {
 
   const requestUtil = RequestUtil(config, logger);
-  const loginResource = Object.assign(config.api.soulcio_base, config.api.soulcio_login);
 
   const get = (req, res) => {
+    let configSE = config.api.SE;
+    let resourceSE = Object.assign(configSE.base, configSE.login);
+    let resource = {
+      uri: requestUtil.generateAPIUrl(resourceSE),
+      headers: configSE.base.headers
+    };
     requestUtil
-      .get(loginResource)
+      .get(resource)
       .then(response => {
-        res.status(200).json(response)
+        res.status(200).json(response);
       })
       .catch(err => {
         logger.error('LoginController', err);
@@ -30,18 +36,24 @@ const LoginController = ({ config, logger }) => {
   };
 
   const post = (req, res) => {
+    let configSE = config.api.SE;
+    let resourceSE = Object.assign(configSE.base, configSE.login);
+    let uri = requestUtil.generateAPIUrl(resourceSE);
     let body = req.body;
+    let headers = configSE.base.headers;
     let ipArr = req.ip.split(':');
     let ip = ipArr[ipArr.length - 1];
-    let requestData = {
+    let formData = {
       email: body.email,
       password: body.password,
-      ip: req.ip
+      ip
     };
-    requestUtil
-      .post(loginResource, requestData)
+    return requestUtil.formPost(uri, formData, headers)
       .then(response => {
-        res.status(200).json(response)
+        if (response.status_code !== 200) {
+          return Promise.reject(response);
+        }
+        return res.status(200).json(response);
       })
       .catch(err => {
         logger.error('LoginController', err);
@@ -52,7 +64,7 @@ const LoginController = ({ config, logger }) => {
   return {
     get,
     post
-  }
+  };
 
 };
 
