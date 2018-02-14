@@ -7,7 +7,10 @@
  * The contents of this file represent Media Intellects trade secrets and are confidential.
  * Use outside of Media Intellects is prohibited and in violation of copyright laws.
  */
+
 'use strict';
 
-const LoginService = () => {}
+const LoginService = () => {
+};
 
+module.exports = LoginService;
