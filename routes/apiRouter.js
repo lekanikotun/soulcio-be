@@ -16,6 +16,7 @@ const router = express.Router();
 const LoginController = require('../modules/login/loginController');
 const LogoutController = require('../modules/logout/logoutController');
 const ForgotPasswordController = require('../modules/forgotPassword/forgotPasswordController');
+const SignupController = require('../modules/signup/signupController');
 
 module.exports = (options) => {
 
@@ -35,6 +36,18 @@ module.exports = (options) => {
   router.post(
     '/forgot-password',
     ForgotPasswordController(options).post
+  );
+  router.get(
+    '/signup',
+    SignupController(options).get
+  );
+  router.post(
+    '/signup',
+    SignupController(options).post
+  );
+  router.post(
+    '/signup/validation',
+    SignupController(options).validation
   );
 
   return router;

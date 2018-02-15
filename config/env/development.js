@@ -91,6 +91,12 @@ module.exports = {
       },
       forgot: {
         uri: 'forgot-password'
+      },
+      signup: {
+        uri: 'signup'
+      },
+      signupValidation: {
+        uri: 'signup/validations'
       }
     }
   }

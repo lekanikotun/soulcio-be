@@ -14,27 +14,27 @@ const Promise = require('bluebird');
 
 const SessionUtil = () => {
 
-  const destroy = (req) => {
+  const destroy = (session) => {
     return new Promise((resolve, reject) => {
-      return req.session.destroy(err => {
+      return session.destroy(err => {
         if (err) reject(err);
         resolve({ status_code: 204 });
       });
     });
   };
 
-  const regenerate = (req) => {
+  const regenerate = (session) => {
     return new Promise((resolve, reject) => {
-      return req.session.regenerate(err => {
+      return session.regenerate(err => {
         if (err) reject(err);
         resolve({ status_code: 204 });
       });
     });
   };
 
-  const reload = (req) => {
+  const reload = (session) => {
     return new Promise((resolve, reject) => {
-      return req.session.reload(err => {
+      return session.reload(err => {
         if (err) reject(err);
         resolve({ status_code: 204 });
       });

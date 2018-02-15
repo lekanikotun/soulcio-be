@@ -34,7 +34,7 @@ const LogoutController = ({ config, logger }) => {
         if (response.status_code !== 204) {
           return Promise.reject(response);
         }
-        return sessionUtil.destroy(req);
+        return sessionUtil.destroy(req.session);
       })
       .then(resp => res.status(200).json(resp))
       .catch(err => {
