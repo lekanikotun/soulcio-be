@@ -14,6 +14,7 @@ const express = require('express');
 const router = express.Router();
 
 const LoginController = require('../modules/login/loginController');
+const LogoutController = require('../modules/logout/logoutController');
 
 // middleware
 
@@ -33,6 +34,11 @@ module.exports = (options) => {
   router.post(
     '/login',
     LoginController(options).post
+  );
+
+  router.post(
+    '/logout',
+    LogoutController(options).post
   );
 
   return router;

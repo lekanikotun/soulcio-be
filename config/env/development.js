@@ -85,6 +85,9 @@ module.exports = {
       },
       login: {
         uri: 'login'
+      },
+      logout: {
+        uri: 'logout'
       }
     }
   }

@@ -53,6 +53,10 @@ const LoginController = ({ config, logger }) => {
         if (response.status_code !== 200) {
           return Promise.reject(response);
         }
+        let responseBody = response.body;
+        req.session.oauth_token = responseBody.oauth_token;
+        req.session.oauth_secret = responseBody.oauth_secret;
+        req.session.user = responseBody.user;
         return res.status(200).json(response);
       })
       .catch(err => {
