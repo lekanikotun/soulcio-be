@@ -1,6 +1,6 @@
 /**
- * @category   LDAP Connection
- * @package    Soulcio
+ * @category   Forward Header Middleware
+ * @package    Soulcio Inc.
  * @copyright  Copyright (c) 2018 Media intellects Inc. All rights reserved.
  * @license    https://www.mediaintellects.com/license/
  * @author     Media Intellects Inc. <info@mediaintellects.com>
@@ -10,14 +10,13 @@
 
 'use strict';
 
-const ActiveDirectory = require('activedirectory');
+module.exports = ({ app }) => {
 
-module.exports = (config) => {
-  const ldapConfig = config.ldap;
-  const options = {
-    url: `${ldapConfig.host}:${ldapConfig.port}`,
-    baseDN: ldapConfig.baseDN
-  };
+  // eslint-disable-next-line no-console
 
-  return new ActiveDirectory(options);
+  // Set protocol forwarding headers to enable secure cookies
+  app.use((req, res, next) => {
+    req.headers['x-forwarded-proto'] = 'https';
+    next();
+  });
 };

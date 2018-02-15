@@ -1,5 +1,5 @@
 /**
- * @category   LDAP Connection
+ * @category   ${file}
  * @package    Soulcio
  * @copyright  Copyright (c) 2018 Media intellects Inc. All rights reserved.
  * @license    https://www.mediaintellects.com/license/
@@ -9,15 +9,3 @@
  */
 
 'use strict';
-
-const ActiveDirectory = require('activedirectory');
-
-module.exports = (config) => {
-  const ldapConfig = config.ldap;
-  const options = {
-    url: `${ldapConfig.host}:${ldapConfig.port}`,
-    baseDN: ldapConfig.baseDN
-  };
-
-  return new ActiveDirectory(options);
-};
