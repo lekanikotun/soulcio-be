@@ -1,5 +1,5 @@
 /**
- * @category   Logout Controller
+ * @category   Forgot Password Controller
  * @package    Soulcio Inc.
  * @copyright  Copyright (c) 2018 Media intellects Inc. All rights reserved.
  * @license    https://www.mediaintellects.com/license/
@@ -12,33 +12,28 @@
 
 const Promise = require('bluebird');
 const RequestUtil = require('../../utils/requestUtil');
-const SessionUtil = require('../../utils/sessionUtil');
 
-const LogoutController = ({ config, logger }) => {
+const ForgotPasswordController = ({ config, logger }) => {
 
   const requestUtil = RequestUtil(config, logger);
-  const sessionUtil = SessionUtil(config, logger);
 
   const post = (req, res) => {
     let configSE = config.api.SE;
-    let resourceSE = Object.assign(configSE.base, configSE.logout);
+    let resourceSE = Object.assign(configSE.base, configSE.forgot);
     let uri = requestUtil.generateAPIUrl(resourceSE);
-    let headers = {
-      oauth_token: req.session.oauth_token,
-      oauth_secret: req.session.oauth_secret
+    let body = {
+      email: req.body.email
     };
-    headers = Object.assign(resourceSE.headers, headers);
-    let formData = {};
-    return requestUtil.formPost(uri, formData, headers)
+    let headers = configSE.base.headers;
+    return requestUtil.formPost(uri, body, headers)
       .then(response => {
         if (response.status_code !== 204) {
           return Promise.reject(response);
         }
-        return sessionUtil.destroy(req);
+        return res.status(200).json(response);
       })
-      .then(resp => res.status(200).json(resp))
       .catch(err => {
-        logger.error('LogoutController', err);
+        logger.error('Login', err);
         res.status(400).send('An error occurred');
       });
   };
@@ -48,4 +43,5 @@ const LogoutController = ({ config, logger }) => {
   };
 };
 
-module.exports = LogoutController;
+module.exports = ForgotPasswordController;
+
