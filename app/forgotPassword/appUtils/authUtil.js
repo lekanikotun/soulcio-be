@@ -2,7 +2,7 @@
  * @category   LDAP Authentication
  * @package    Soulcio
  * @copyright  Copyright (c) 2018 Media intellects Inc. All rights reserved.
- * @license    https://www.mediaintellects.com/license/
+ * @license    http://www.mediaintellects.com/license/
  * @author     Media Intellects Inc. <info@mediaintellects.com>
  * The contents of this file represent Media Intellects Inc. trade secrets and are confidential.
  * Use outside of Media Intellects Inc. is prohibited and in violation of copyright laws.
@@ -10,54 +10,39 @@
 
 'use strict';
 
-const LDAPClient = require('ldap-client');
-const LdapAuth = require('ldapauth-fork');
 const Promise = require('bluebird');
 const constants = require('.././constants');
 
 const CustomError = require('errorUtil');
 
-const AuthUtil = (config) => {
+const AuthUtil = (config, logger) => {
   const EVTE = constants.ERROR_AUTH;
-
-  /**
-   * Authenticate User
-   * @param {String} username
-   * @param {String} password
-   */
-  const login = (username, password) => {
-    let ldapConfig = config.ldap;
-    let options = {
-      url: `${ldapConfig.host}:${ldapConfig.port}`,
-      bindDN: ldapConfig.bindDN.replace(/ADMINUSER/, process.env.LDAP_USER),
-      bindCredentials: process.env.LDAP_PWD,
-      searchBase: ldapConfig.baseDN,
-      searchFilter: `(uid=${username})`,
-      searchAttributes: ['givenName', 'sn'],
-      groupSearchBase: ldapConfig.baseDN,
-      groupSearchFilter: ldapConfig.groupSearchFilter.replace(/USERNAME/, username),
-      reconnect: true
-    };
-    let ldap = new LdapAuth(options);
-
-    return new Promise((resolve, reject) => {
-      const user = `cn=${username},${ldapConfig.baseDN}`;
-      return ldap.authenticate(user, password, (err, auth) => {
-        if (err) {
-          reject(new CustomError(EVTE, err));
-        }
-        resolve(auth);
-      });
-    });
-  };
 
   /**
    * Check if a user is logged in
    * @param req
+   * @param res
+   * @param next
    * @return {Boolean}
    */
-  const isLoggedIn = (req) => {
-    return (req.session && req.session.user);
+  const isLoggedIn = (req, res, next) => {
+    if (req.session
+      && req.session.oauth_token
+      && req.session.oauth_secret) {
+      return next();
+    }
+
+    if (!req.body.email || !req.body.password) {
+      logger.error('LoginController', 'Username and password required');
+      return res.status(401).json({
+        error: {
+          name: 'unauthorized',
+          message: 'Authentication required.'
+        }
+      });
+    }
+
+    return next();
   };
 
   /**

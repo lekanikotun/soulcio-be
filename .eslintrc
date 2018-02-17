@@ -1,0 +1,8 @@
+{
+  "parser": "esprima",
+  "rules": {
+    "semi": "error",
+    "padded-blocks": "off"
+  },
+  "extends": "airbnb-base/legacy"
+}

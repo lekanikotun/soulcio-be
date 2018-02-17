@@ -31,7 +31,7 @@ const resHeaders = (req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Cache-Control, Authorization');
   res.header('Access-Control-Allow-Credentials', true);
   res.header('Access-Control-Max-Age', 1200);
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+  res.header('Access-Control-Allow-Methods', 'GET, POST');
 
   // security
 

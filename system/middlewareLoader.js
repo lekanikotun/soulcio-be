@@ -18,8 +18,8 @@ const headers = require('./middleware/resHeaders');
 const loadMiddleware = (options) => {
   bodyParser(options);
   cookieParser(options);
-  session(options);
   headers(options);
+  session(options);
 };
 
 module.exports = loadMiddleware;

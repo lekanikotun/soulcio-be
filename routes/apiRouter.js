@@ -13,38 +13,49 @@
 const express = require('express');
 const router = express.Router();
 
-const LoginController = require('../modules/login/loginController');
-const LogoutController = require('../modules/logout/logoutController');
-const ForgotPasswordController = require('../modules/forgotPassword/forgotPasswordController');
-const SignupController = require('../modules/signup/signupController');
+const LoginController = require('../app/login/loginController');
+const LogoutController = require('../app/logout/logoutController');
+const ForgotPasswordController = require('../app/forgotPassword/forgotPasswordController');
+const SignupController = require('../app/signup/signupController');
+
+const Middleware = require('../app/middleware/middleware');
 
 module.exports = (options) => {
+
+  const { isLoggedIn } = Middleware(options);
 
   // routes
   router.get(
     '/login',
     LoginController(options).get
   );
+
   router.post(
     '/login',
-    LoginController(options).post
+    isLoggedIn,
+    LoginController(options).authenticate
   );
+
   router.post(
     '/logout',
     LogoutController(options).post
   );
+
   router.post(
     '/forgot-password',
     ForgotPasswordController(options).post
   );
+
   router.get(
     '/signup',
     SignupController(options).get
   );
+
   router.post(
     '/signup',
     SignupController(options).post
   );
+
   router.post(
     '/signup/validation',
     SignupController(options).validation

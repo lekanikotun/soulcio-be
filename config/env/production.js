@@ -1,5 +1,5 @@
 /**
- * @category   Production Config
+ * @category   Prod Configuration
  * @package    Soulcio
  * @copyright  Copyright (c) 2018 Media intellects Inc. All rights reserved.
  * @license    https://www.mediaintellects.com/license/
@@ -20,6 +20,9 @@ module.exports = {
   },
 
   request: {
+    host: 'https://localhost',
+    port: '443',
+    baseUrl: 'soulcio/api/rest',
     timeout: 2 * 60 * 1000
   },
 
@@ -65,5 +68,36 @@ module.exports = {
   garbageCollection: {
     maximumMemory: 300,
     checkingCycle: 12 * 60
+  },
+
+  api: {
+    SE: {
+      base: {
+        host: 'https://localhost',
+        port: '',
+        baseUrl: 'soulcio/api/rest',
+        timeout: 2 * 60 * 1000,
+        headers: {
+          Accept: 'application/json',
+          oauth_consumer_key: process.env.CONSUMER_KEY,
+          oauth_consumer_secret: process.env.CONSUMER_SECRET
+        }
+      },
+      login: {
+        uri: 'login'
+      },
+      logout: {
+        uri: 'logout'
+      },
+      forgot: {
+        uri: 'forgot-password'
+      },
+      signup: {
+        uri: 'signup'
+      },
+      signupValidation: {
+        uri: 'signup/validations'
+      }
+    }
   }
 };
