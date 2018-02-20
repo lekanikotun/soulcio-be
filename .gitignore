@@ -21,3 +21,4 @@ dump.rdb
 .idea
 .env
 *.conf*
+/npm-debug.log.1279345591

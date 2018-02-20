@@ -20,6 +20,7 @@ const LogoutController = ({ config, logger }) => {
   const sessionUtil = SessionUtil(config, logger);
 
   const post = (req, res) => {
+
     let configSE = config.api.SE;
     let resourceSE = Object.assign(configSE.base, configSE.logout);
     let uri = requestUtil.generateAPIUrl(resourceSE);
@@ -31,12 +32,13 @@ const LogoutController = ({ config, logger }) => {
     let formData = {};
     return requestUtil.formPost(uri, formData, headers)
       .then(response => {
+        logger.info('LogoutControllerresponse', response);
         if (response.status_code !== 204) {
           return Promise.reject(response);
         }
         return sessionUtil.destroy(req.session);
       })
-      .then(resp => res.status(200).json(resp))
+      .then(() => res.status(200).json({ success: 'ok' }))
       .catch(err => {
         logger.error('LogoutController', err);
         res.status(400).send('An error occurred');

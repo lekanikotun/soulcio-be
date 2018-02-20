@@ -38,13 +38,11 @@ const LoginController = ({ config, logger }) => {
       && req.session.oauth_secret) {
       return res.status(200).json({ message: 'user already logged in.' });
     }
-
     if (!req.body.email || !req.body.password) {
       return res.status(401).json({
         message: 'Username and password required.'
       });
     }
-
     logger.info(`User attempting to authenticate with email ${req.body.email}`);
     let ipArr = req.ip.split(':');
     let ip = ipArr[ipArr.length - 1];
