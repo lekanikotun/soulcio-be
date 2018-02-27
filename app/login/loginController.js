@@ -44,16 +44,15 @@ const LoginController = ({ config, logger }) => {
       });
     }
     logger.info(`User attempting to authenticate with email ${req.body.email}`);
-    let ipArr = req.ip.split(':');
-    let ip = ipArr[ipArr.length - 1];
-    return loginService.doLogin(req.body.email, req.body.password, ip)
+    return loginService.doLogin(req.body.email, req.body.password, req.ipAddress)
       .then(response => {
         if (response.error) {
           return Promise.reject(response);
         }
         loginService.sessionUpdate(req, response.body);
         return res.status(200).json({
-          message: 'User successfully authenticated.'
+          message: 'User successfully authenticated.',
+          data: response.body.user
         });
       })
       .catch(err => {

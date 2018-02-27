@@ -1,8 +1,6 @@
 /**
  * @category   Headers Middleware
- * @package    Soulcio
  * @copyright  Copyright (c) 2018 Media intellects Inc. All rights reserved.
- * @license    https://www.mediaintellects.com/license/
  * @author     Media Intellects Inc. <info@mediaintellects.com>
  * The contents of this file represent Media Intellects Inc. trade secrets and are confidential.
  * Use outside of Media Intellects Inc. is prohibited and in violation of copyright laws.
@@ -15,7 +13,8 @@ const resHeaders = (req, res, next) => {
   req.headers['x-forwarded-proto'] = 'https';
 
   // get request ip address
-  req.ipAddress = req.headers['x-forwarded-for'] ||
+  req.ipAddress = /::1/.test(req.ip) ? '127.0.0.1' :
+    req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress ||
     (req.socket ? req.socket.remoteAddress : null) ||
     (req.connection.socket ? req.connection.socket.remoteAddress : null);

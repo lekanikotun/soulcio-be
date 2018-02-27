@@ -38,7 +38,7 @@ module.exports = {
     proxy: true,
     resave: false,
     saveUninitialized: false,
-    ttl: 3 * 60
+    ttl: 20 * 60
   },
   security: {
     crossOriginResourceSharing: {

@@ -36,9 +36,9 @@ module.exports = (options) => {
     LoginController(options).authenticate
   );
 
-  router.post(
+  router.get(
     '/logout',
-    LogoutController(options).post
+    LogoutController(options).get
   );
 
   router.post(

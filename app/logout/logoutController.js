@@ -19,7 +19,7 @@ const LogoutController = ({ config, logger }) => {
   const requestUtil = RequestUtil(config, logger);
   const sessionUtil = SessionUtil(config, logger);
 
-  const post = (req, res) => {
+  const get = (req, res) => {
 
     let configSE = config.api.SE;
     let resourceSE = Object.assign(configSE.base, configSE.logout);
@@ -32,7 +32,7 @@ const LogoutController = ({ config, logger }) => {
     let formData = {};
     return requestUtil.formPost(uri, formData, headers)
       .then(response => {
-        logger.info('LogoutControllerresponse', response);
+        logger.info('LogoutController Response', response);
         if (response.status_code !== 204) {
           return Promise.reject(response);
         }
@@ -46,7 +46,7 @@ const LogoutController = ({ config, logger }) => {
   };
 
   return {
-    post
+    get
   };
 };
 
