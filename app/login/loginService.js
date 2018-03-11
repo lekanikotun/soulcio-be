@@ -8,6 +8,9 @@
 
 'use strict';
 
+const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const Promise = require('bluebird');
 const RequestUtil = require('../../utils/requestUtil');
 
 const LoginService = (config, logger) => {
@@ -30,7 +33,13 @@ const LoginService = (config, logger) => {
       password,
       ip
     };
-    return requestUtil.formPost(uri, formData, headers);
+    return requestUtil.formPost(uri, formData, headers)
+      .then(response => {
+        if (response.error || !response.body) {
+          return Promise.reject(response);
+        }
+        return response;
+      });
   };
 
   /**
@@ -54,10 +63,29 @@ const LoginService = (config, logger) => {
     return requestUtil.get(resource);
   };
 
+  const geJsonWebToken = (uuid) => {
+    const RSA_PRIVATE_KEY = fs.readFileSync(process.env.JWT_KEY);
+    return new Promise((resolve, reject) => {
+      return jwt.sign({}, RSA_PRIVATE_KEY, {
+        algorithm: 'RS256',
+        expiresIn: 120,
+        subject: uuid
+      }, (err, token) => {
+        if (err) {
+          logger.error('Not able to generate token');
+          reject(err);
+        }
+        logger.info('TOKEN', token);
+        resolve(token);
+      });
+    });
+  };
+
   return {
     doLogin,
     sessionUpdate,
-    getFields
+    getFields,
+    geJsonWebToken
   };
 
 };

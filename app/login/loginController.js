@@ -10,17 +10,24 @@
 
 'use strict';
 
-const Promise = require('bluebird');
+const uuidv4 = require('uuid/v4');
 const LoginService = require('./loginService');
+const DBUtil = require('../../utils/dbUtil');
+const AuthUtil = require('../../utils/authUtil');
+const constants = require('../../data/constants');
 
-const LoginController = ({ config, logger }) => {
+const LoginController = ({ db, config, logger }) => {
 
   const loginService = LoginService(config, logger);
+  const dbUtil = DBUtil(db, config);
+  const authUtil = AuthUtil();
 
   const get = (req, res) => {
     return loginService.getFields()
       .then(response => {
-        res.status(200).json(response);
+        res.status(200).json({
+          response
+        });
       })
       .catch(err => {
         logger.error('LoginController', err);
@@ -44,15 +51,27 @@ const LoginController = ({ config, logger }) => {
       });
     }
     logger.info(`User attempting to authenticate with email ${req.body.email}`);
+    const uuid = uuidv4();
     return loginService.doLogin(req.body.email, req.body.password, req.ipAddress)
-      .then(response => {
-        if (response.error) {
-          return Promise.reject(response);
-        }
-        loginService.sessionUpdate(req, response.body);
+      .then(data => {
+        return authUtil.getJWT(uuid)
+          .then(token => {
+            let sessionData = {
+              uuid,
+              userData: data.body
+            };
+            return dbUtil.addRecord(constants.COL_USER_SESSION, sessionData)
+              .then(() => {
+                return {
+                  user: data.body.user,
+                  token: token
+                };
+              });
+          });
+      })
+      .then(data => {
         return res.status(200).json({
-          message: 'User successfully authenticated.',
-          data: response.body.user
+          data
         });
       })
       .catch(err => {

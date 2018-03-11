@@ -10,7 +10,11 @@
 
 'use strict';
 
+const AuthUtil = require('../utils/authUtil');
+
 const Middleware = ({ logger }) => {
+
+  const authUtil = AuthUtil(logger);
 
   /**
    * Check if a user is logged in
@@ -20,21 +24,9 @@ const Middleware = ({ logger }) => {
    * @return {Boolean}
    */
   const isLoggedIn = (req, res, next) => {
-    if ((req.session
-      && req.session.oauth_token
-      && req.session.oauth_secret)
-      || (req.body.email && req.body.password)
-    ) {
-      return next();
-    }
-
-    logger.error('LoginController', 'Username and password required');
-    return res.status(401).json({
-      error: {
-        name: 'unauthorized',
-        message: 'Authentication required.'
-      }
-    });
+    let c = authUtil.validateJWT();
+    logger.info('CCCCC', c);
+    return next();
   };
 
   return {

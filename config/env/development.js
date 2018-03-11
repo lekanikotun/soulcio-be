@@ -52,8 +52,8 @@ module.exports = {
   mongodb: {
     host: '127.0.0.1',
     port: '27017',
-    db: 'soulcio',
-    timeout: 10000
+    timeout: 10000,
+    db: 'soulcio'
   },
 
   redis: {
@@ -97,6 +97,9 @@ module.exports = {
       },
       signupValidation: {
         uri: 'signup/validations'
+      },
+      members: {
+        uri: 'members'
       }
     }
   }

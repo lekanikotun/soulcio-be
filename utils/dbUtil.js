@@ -13,7 +13,7 @@
 const Promise = require('bluebird');
 const ObjectID = require('mongodb').ObjectID;
 
-const DBUtil = (config, db) => {
+const DBUtil = (db, config) => {
 
   /**
    * Get Collection Data by ID

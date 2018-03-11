@@ -15,10 +15,11 @@ const router = express.Router();
 
 const LoginController = require('../app/login/loginController');
 const LogoutController = require('../app/logout/logoutController');
+const MembersController = require('../app/members/membersController');
 const ForgotPasswordController = require('../app/forgotPassword/forgotPasswordController');
 const SignupController = require('../app/signup/signupController');
 
-const Middleware = require('../app/middleware/middleware');
+const Middleware = require('../middleware/middleware');
 
 module.exports = (options) => {
 
@@ -32,8 +33,13 @@ module.exports = (options) => {
 
   router.post(
     '/login',
-    isLoggedIn,
     LoginController(options).authenticate
+  );
+
+  router.get(
+    '/members',
+    // isLoggedIn,
+    MembersController(options).get
   );
 
   router.get(

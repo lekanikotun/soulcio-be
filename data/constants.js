@@ -11,6 +11,7 @@
 'use strict';
 
 const CONSTANTS = {
+  COL_USER_SESSION: 'user_session',
   ERROR_AUTH: 'UnauthorizedError',
   ERROR_BAD_REQUEST: 'BadRequest',
   ERROR_SERVER: 'ServerError',
