@@ -41,7 +41,7 @@ module.exports = ({ app, logger }) => {
   process.on('uncaughtException', (err) => {
     logger.warn('shutting Down, uncaughtException received');
     logger.error(err);
-    process.exit(3);
+    process.exit(1);
   });
 
   const errorNotification = (err, str, req) => {
@@ -54,10 +54,10 @@ module.exports = ({ app, logger }) => {
   };
 
   // catch 404 and forward to error handler
-  app.use((req, res, next) => {
+  app.use((req, res) => {
     const err = new Error('Not Found');
     err.status = 404;
-    next(err);
+    res.status(400).json({ error: 'Page Not found' });
   });
 
   if (app.get('env') !== 'production') {

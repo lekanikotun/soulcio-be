@@ -20,7 +20,7 @@ const LoginController = ({ db, config, logger }) => {
 
   const loginService = LoginService(config, logger);
   const dbUtil = DBUtil(db, config);
-  const authUtil = AuthUtil();
+  const { getJWT } = AuthUtil();
 
   const get = (req, res) => {
     return loginService.getFields()
@@ -54,7 +54,7 @@ const LoginController = ({ db, config, logger }) => {
     const uuid = uuidv4();
     return loginService.doLogin(req.body.email, req.body.password, req.ipAddress)
       .then(data => {
-        return authUtil.getJWT(uuid)
+        return getJWT(uuid)
           .then(token => {
             let sessionData = {
               uuid,

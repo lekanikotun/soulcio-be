@@ -1,5 +1,5 @@
 /**
- * @category   FILE_PURPOSE
+ * @category   Auth Utility
  * @package    Soulcio Inc.
  * @copyright  Copyright (c) 2018 Media intellects Inc. All rights reserved.
  * @license    https://www.mediaintellects.com/license/
@@ -17,32 +17,29 @@ const Promise = require('bluebird');
 
 const AuthUtil = (logger) => {
 
-  const getJWT = (uuid) => {
-    const RSA_PRIVATE_KEY = fs.readFileSync(process.env.JWT_PRIVATE_KEY);
-    return new Promise((resolve, reject) => {
-      return jwt.sign({ uuid }, RSA_PRIVATE_KEY, {
-        algorithm: 'RS256',
-        expiresIn: 120,
-        subject: uuid
-      }, (err, token) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(token);
-      });
-    });
-  };
-
-  const validateJWT = () => {
-    const RSA_PUBLIC_KEY = fs.readFileSync(process.env.JWT_PUBLIC_KEY);
-    let tokenData = expressJwt({ secret: RSA_PUBLIC_KEY });
-    logger.info('Token DATA', tokenData);
-    return tokenData;
-  };
-
   return {
-    getJWT,
-    validateJWT
+    getJWT(uuid) {
+      const RSA_PRIVATE_KEY = fs.readFileSync(process.env.JWT_PRIVATE_KEY);
+      return new Promise((resolve, reject) => {
+        return jwt.sign({ uuid }, RSA_PRIVATE_KEY, {
+          algorithm: 'RS256',
+          expiresIn: 120,
+          subject: uuid
+        }, (err, token) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(token);
+        });
+      });
+    },
+
+    validateJWT() {
+      const RSA_PUBLIC_KEY = fs.readFileSync(process.env.JWT_PUBLIC_KEY);
+      let tokenData = expressJwt({ secret: RSA_PUBLIC_KEY });
+      logger.info('Token DATA', tokenData);
+      return tokenData;
+    }
   };
 };
 

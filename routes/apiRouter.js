@@ -18,12 +18,13 @@ const LogoutController = require('../app/logout/logoutController');
 const MembersController = require('../app/members/membersController');
 const ForgotPasswordController = require('../app/forgotPassword/forgotPasswordController');
 const SignupController = require('../app/signup/signupController');
+const ChatController = require('../app/chat/chatController');
 
-const Middleware = require('../middleware/middleware');
+// const Middleware = require('../middleware/middleware');
 
 module.exports = (options) => {
 
-  const { isLoggedIn } = Middleware(options);
+  // const { isLoggedIn } = Middleware(options);
 
   // routes
   router.get(
@@ -65,6 +66,31 @@ module.exports = (options) => {
   router.post(
     '/signup/validation',
     SignupController(options).validation
+  );
+
+  router.get(
+    '/chat/listChannels',
+    ChatController(options).listChannels
+  );
+
+  router.post(
+    '/chat/listChannels',
+    ChatController(options).createChannel
+  );
+
+  router.get(
+    '/chat/retrieveChannel',
+    ChatController(options).retrieveChannel
+  );
+
+  router.post(
+    '/chat/retrieveChannel',
+    ChatController(options).updateChannel
+  );
+
+  router.get(
+    '/chat/deleteChannel',
+    ChatController(options).deleteChannel
   );
 
   return router;
