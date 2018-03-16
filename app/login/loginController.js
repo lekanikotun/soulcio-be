@@ -51,13 +51,13 @@ const LoginController = ({ db, config, logger }) => {
     return co(function* () {
       const uuid = uuidv4();
       let data = yield loginService.doLogin(req.body.email, req.body.password, req.ipAddress);
-      let token = getJWT(uuid);
+      let token = yield getJWT(uuid);
       let sessionData = {
         uuid,
         userData: data.body
       };
       yield dbUtil.addRecord(constants.COL_USER_SESSION, sessionData);
-      res.status(200).json({ user: data.body.user, token: token });
+      res.status(200).json({ data: { user: data.body.user, token: token } });
     }).catch(err => {
       logger.error('LoginController', err);
       return res.status(401).json({ error: { message: 'Unable to authenticate user.' } });
