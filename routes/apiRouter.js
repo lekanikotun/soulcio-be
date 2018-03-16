@@ -17,20 +17,22 @@ const ForgotPasswordController = require('../app/forgotPassword/forgotPasswordCo
 const SignupController = require('../app/signup/signupController');
 const ChatController = require('../app/chat/chatController');
 
-// const Middleware = require('../middleware/middleware');
+const Middleware = require('../middleware/middleware');
 
 module.exports = (options) => {
 
-  // const { isLoggedIn } = Middleware(options);
+  const { isLoggedIn } = Middleware(options);
 
   // routes
   router.get(
     '/login',
+    // isLoggedIn,
     LoginController(options).get
   );
 
   router.post(
     '/login',
+    // isLoggedIn,
     LoginController(options).authenticate
   );
 

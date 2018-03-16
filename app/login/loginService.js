@@ -7,6 +7,7 @@
 
 'use strict';
 
+const uuidv4 = require('uuid/v4');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const Promise = require('bluebird');
@@ -62,8 +63,9 @@ const LoginService = (config, logger) => {
     return requestUtil.get(resource);
   };
 
-  const geJsonWebToken = (uuid) => {
-    const RSA_PRIVATE_KEY = fs.readFileSync(process.env.JWT_KEY);
+  const getJWT = () => {
+    const uuid = uuidv4();
+    const RSA_PRIVATE_KEY = fs.readFileSync(process.env.JWT_PRIVATE_KEY);
     return new Promise((resolve, reject) => {
       return jwt.sign({}, RSA_PRIVATE_KEY, {
         algorithm: 'RS256',
@@ -71,11 +73,9 @@ const LoginService = (config, logger) => {
         subject: uuid
       }, (err, token) => {
         if (err) {
-          logger.error('Not able to generate token');
           reject(err);
         }
-        logger.info('TOKEN', token);
-        resolve(token);
+        resolve({ token, uuid });
       });
     });
   };
@@ -84,7 +84,7 @@ const LoginService = (config, logger) => {
     doLogin,
     sessionUpdate,
     getFields,
-    geJsonWebToken
+    getJWT
   };
 
 };
