@@ -1,9 +1,6 @@
 /**
  * @category   Auth Utility
- * @package    Soulcio Inc.
  * @copyright  Copyright (c) 2018 Media intellects Inc. All rights reserved.
- * @license    https://www.mediaintellects.com/license/
- * @author     Media Intellects Inc. <info@mediaintellects.com>
  * The contents of this file represent Media Intellects Inc. trade secrets and are confidential.
  * Use outside of Media Intellects Inc. is prohibited and in violation of copyright laws.
  */
@@ -34,7 +31,8 @@ const AuthUtil = (logger) => {
       });
     },
 
-    validateJWT() {
+    validateJWT(authorization) {
+      logger.info(authorization);
       const RSA_PUBLIC_KEY = fs.readFileSync(process.env.JWT_PUBLIC_KEY);
       let tokenData = expressJwt({ secret: RSA_PUBLIC_KEY });
       logger.info('Token DATA', tokenData);
