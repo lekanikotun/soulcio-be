@@ -1,8 +1,8 @@
 {
-  "name": "SoulcioServer",
+  "name": "soulcio-backend-server",
   "version": "0.0.0",
   "private": true,
-  "author": "Lekan Ikotun",
+  "author": "Media Intellects",
   "description": "Soulcio",
   "repository": {
     "type": "git",

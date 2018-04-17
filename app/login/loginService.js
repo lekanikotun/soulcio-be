@@ -63,6 +63,9 @@ const LoginService = (config, logger) => {
     return requestUtil.get(resource);
   };
 
+  /**
+   * Get Json Web Token
+   */
   const getJWT = () => {
     const uuid = uuidv4();
     const RSA_PRIVATE_KEY = fs.readFileSync(process.env.JWT_PRIVATE_KEY);

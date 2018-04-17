@@ -7,11 +7,14 @@
 
 'use strict';
 
-const AuthUtil = require('../utils/authUtil');
+const expressJwt = require('express-jwt');
+const fs = require('fs');
+const RSA_PUBLIC_KEY = fs.readFileSync(process.env.JWT_PUBLIC_KEY);
+// const AuthUtil = require('../utils/authUtil');
 
 const Middleware = ({ logger }) => {
 
-  const authUtil = AuthUtil(logger);
+  // const { validateJWT } = AuthUtil(logger);
 
   /**
    * Check if a user is logged in
@@ -20,10 +23,12 @@ const Middleware = ({ logger }) => {
    * @param next
    * @return {Boolean}
    */
-  const isLoggedIn = (req, res, next) => {
-    let c = authUtil.validateJWT();
-    logger.info('CCCCC', c);
-    return next();
+  const isLoggedIn = (req, res) => {
+    if (!req.authorization) {
+      return res.status(401).json({ error: true, message: 'Unauthorized user.' });
+    } else {
+      return expressJwt({ secret: RSA_PUBLIC_KEY });
+    }
   };
 
   return {

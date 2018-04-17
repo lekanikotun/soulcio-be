@@ -35,10 +35,10 @@ const LoginController = ({ db, config, logger }) => {
 
   const authenticate = (req, res) => {
     if (!req.body.email || !req.body.password) {
-      res.status(401).json({ error: true, message: 'Username and password required.' });
+      return res.status(401).json({ error: true, message: 'Username and password required.' });
     }
-    co(function* () {
-      let reqBody = Object.assign(req.body);
+    return co(function* () {
+      let reqBody = Object.assign({}, req.body);
       logger.info(`User attempting to authenticate with email ${reqBody.email}`);
       let response = yield doLogin(reqBody.email, reqBody.password, req.ipAddress);
       let userData = response.body;
@@ -47,7 +47,7 @@ const LoginController = ({ db, config, logger }) => {
       res.status(200).json({ data: { user: userData.user, token: token } });
     }).catch(err => {
       logger.error('LoginController', err);
-      res.status(401).json({ error: true, message: 'Unable to authenticate user.' });
+      return res.status(401).json({ error: true, message: 'Unable to authenticate user.' });
     });
   };
 

@@ -9,12 +9,13 @@
 
 const expressJwt = require('express-jwt');
 const fs = require('fs');
+const RSA_PUBLIC_KEY = fs.readFileSync(process.env.JWT_PUBLIC_KEY);
 
 const AuthUtil = (logger) => {
 
   return {
     validateJWT() {
-      const RSA_PUBLIC_KEY = fs.readFileSync(process.env.JWT_PUBLIC_KEY);
+
       let tokenData = expressJwt({ secret: RSA_PUBLIC_KEY });
       logger.info('Token DATA', tokenData);
       return tokenData;

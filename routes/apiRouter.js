@@ -9,6 +9,9 @@
 
 const express = require('express');
 const router = express.Router();
+const expressJwt = require('express-jwt');
+const fs = require('fs');
+const RSA_PUBLIC_KEY = fs.readFileSync(process.env.JWT_PUBLIC_KEY);
 
 const LoginController = require('../app/login/loginController');
 const LogoutController = require('../app/logout/logoutController');
@@ -26,19 +29,20 @@ module.exports = (options) => {
   // routes
   router.get(
     '/login',
-    // isLoggedIn,
+    // expressJwt({ secret: RSA_PUBLIC_KEY }),
+    isLoggedIn,
     LoginController(options).get
   );
 
   router.post(
     '/login',
-    // isLoggedIn,
+    isLoggedIn,
     LoginController(options).authenticate
   );
 
   router.get(
     '/members',
-    // isLoggedIn,
+    isLoggedIn,
     MembersController(options).get
   );
 
